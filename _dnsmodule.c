@@ -4,7 +4,7 @@
    D. R. Tzeck - http://koeln.ccc.de/~drt/
 */
 
-static char rcsid[] = "$Id: _dnsmodule.c,v 1.1 2001/07/09 21:10:50 drt Exp $";
+static char rcsid[] = "$Id: _dnsmodule.c,v 1.2 2002/01/20 07:04:25 drt Exp $";
    
 #include <Python.h>
 #include "djb/dns.h"
@@ -45,7 +45,6 @@ void static stralloc_free(stralloc *sa)
   sa->s = 0;
   sa->len = sa->a = 0;
 }
-
 
 /* Interface to dns_ip4 */
 static char ip4_Doc[] = "ip(fqdn) - look up fully qualified domain name. 
@@ -365,6 +364,28 @@ static PyObject *name4(self, args)
   return ret;
 }
 
+/* dns_name4_domain */
+
+static char resolvconfip_Doc[] = "XXX";
+
+static PyObject *resolvconfip(self, args)
+     PyObject *self;
+     PyObject *args;
+{
+  PyObject *ret;
+  char servers[64];
+  
+  if(!PyArg_ParseTuple(args, ":resolvconfip"))
+    return NULL;
+
+  if (dns_resolvconfip(servers) == -1)
+    return PyErr_SetFromErrno(PyExc_LookupError);
+   
+  ret = Py_BuildValue("s#", servers, 64);
+  return ret;
+}
+
+
 static char random_init_Doc[] = "random_init(seed) initializes the pseudorandom number generator.
 
 random_init initializes the pseudorandom number generator used
@@ -417,8 +438,84 @@ static PyObject *random_init(self, args)
   return Py_None;
 }
 
+staticforward PyTypeObject transmitType;
+
+typedef struct {
+  PyObject_HEAD;
+  struct dns_transmit dt;
+} transmitObject;
+
+static PyObject*
+new_transmit(transmitObject* self, PyObject* args)
+{
+  transmitObject* transmit;
+  struct taia t;
+
+  if(1==2)
+    taia_approx(&t);
+
+  if (!PyArg_ParseTuple(args,":new_transmit")) 
+    return NULL;
+
+  transmit = PyObject_New(transmitObject, &transmitType);
+  bzero((void *) &transmit->dt, sizeof(struct dns_transmit));
+
+  return (PyObject*)transmit;
+}
+
+static void
+transmit_dealloc(PyObject* self)
+{
+  PyObject_Del(self);
+}
+
+static PyObject*
+transmit_start(transmitObject* self, PyObject* args)
+{
+
+  /* The dns_transmit functions send a DNS query to some DNS
+     servers. They save the first useful response inside dt.
+
+     The query asks for Internet records of type t for the domain name
+     packet-encoded in q. It requests server recursion if
+     flagrecursive is nonzero.
+
+     The IP addresses of the DNS servers are listed in s. The
+     dns_transmit functions skip IP addresses of 0.0.0.0. The
+     dns_transmit functions record only a pointer to the contents of
+     s, not a copy of s, so you must leave s in place and unchanged.
+
+     The dns_transmit functions send outgoing packets from a local IP
+     address of localip.
+  */
+
+  /*  if( dns_transmit_start(&dt,s,flagrecursive,q,t,localip) == -1)
+    {
+      PyErr_SetString(PyExc_TypeError,
+		      "XXX tansmit_start");
+    }
+  */
+  return NULL;
+}
 
 
+static PyTypeObject transmitType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "transmit",
+  sizeof(transmitObject),
+  0,
+  transmit_dealloc, /*tp_dealloc*/
+  0,          /*tp_print*/
+  0,          /*tp_getattr*/
+  0,          /*tp_setattr*/
+  0,          /*tp_compare*/
+  0,          /*tp_repr*/
+  0,          /*tp_as_number*/
+  0,          /*tp_as_sequence*/
+  0,          /*tp_as_mapping*/
+  0,          /*tp_hash */
+};
 
 static PyMethodDef dnsMethods[] = {
       {"ip4",         ip4,         METH_VARARGS, ip4_Doc},
@@ -426,13 +523,18 @@ static PyMethodDef dnsMethods[] = {
       {"mx",          mx,          METH_VARARGS, mx_Doc},
       {"txt",         txt,         METH_VARARGS, txt_Doc},
       {"name4",       name4,       METH_VARARGS, name4_Doc},
+      {"resolvconfip", resolvconfip, METH_VARARGS, resolvconfip_Doc},
       {"random_init", random_init, METH_VARARGS, random_init_Doc},
+      {"new_transmit", new_transmit, METH_VARARGS, "Create a new transmit object."},
       {NULL,      NULL}        /* Sentinel */
 };
 
-void init_dns()
+void init_dnsmodule()
 {
-  (void) Py_InitModule3("_dns", dnsMethods, module_Doc);
+  /* transmitType.ob_type = &PyType_Type; */
+
+  (void) Py_InitModule3("_dnsmodule", dnsMethods, module_Doc);
+  /* (void) Py_InitModule("transmit", transmit_methods); */
 }
 
 
