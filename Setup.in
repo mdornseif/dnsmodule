@@ -1,0 +1,2 @@
+*shared*
+_dns _dnsmodule.c ./djb/iopause.o ./djb/dns.a ./djb/env.a ./djb/libtai.a ./djb/alloc.a ./djb/buffer.a ./djb/unix.a ./djb/byte.a 

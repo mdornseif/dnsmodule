@@ -1,0 +1,221 @@
+
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module _dns</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0>
+<tr bgcolor="#7799ee">
+<td valign=bottom><small>&nbsp;<br></small
+><font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>_dns</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/drt/public_html/dnsmodule/_dnsmodule.so">/home/drt/public_html/dnsmodule/_dnsmodule.so</a></font></td></tr></table>
+    <p><small><tt>dns&nbsp;-&nbsp;python&nbsp;bindings&nbsp;to&nbsp;Dan&nbsp;Bernsteins&nbsp;DNS&nbsp;Library.<br>
+&nbsp;<br>
+Dan&nbsp;Bernstein&nbsp;provides&nbsp;with&nbsp;his&nbsp;djbdns&nbsp;domain&nbsp;name&nbsp;server&nbsp;toolkit<br>
+a&nbsp;high&nbsp;quality&nbsp;implementation&nbsp;of&nbsp;a&nbsp;DNS&nbsp;client&nbsp;library.&nbsp;See<br>
+<a href="http://cr.yp.to/djbdns/dns.html">http://cr.yp.to/djbdns/dns.html</a>&nbsp;.This&nbsp;bindings&nbsp;allow&nbsp;to&nbsp;acces<br>
+this&nbsp;library&nbsp;from&nbsp;python&nbsp;and&nbsp;build&nbsp;high&nbsp;level&nbsp;functions&nbsp;on&nbsp;top&nbsp;of<br>
+it.<br>
+&nbsp;<br>
+Transmission&nbsp;details<br>
+&nbsp;<br>
+The&nbsp;dns_ip4,&nbsp;dns_ip4_qualify,&nbsp;dns_name4,&nbsp;dns_mx,&nbsp;and&nbsp;dns_txt<br>
+functions&nbsp;are&nbsp;DNS&nbsp;clients&nbsp;(sometimes&nbsp;called&nbsp;``stub<br>
+resolvers'').&nbsp;They&nbsp;send&nbsp;recursive&nbsp;DNS&nbsp;queries&nbsp;to&nbsp;a&nbsp;nearby&nbsp;DNS<br>
+cache.<br>
+&nbsp;<br>
+Normally&nbsp;the&nbsp;IP&nbsp;address&nbsp;of&nbsp;the&nbsp;DNS&nbsp;cache&nbsp;is&nbsp;listed&nbsp;on&nbsp;a<br>
+nameserver&nbsp;line&nbsp;in&nbsp;/etc/resolv.conf.&nbsp;If&nbsp;/etc/resolv.conf&nbsp;does&nbsp;not<br>
+exist&nbsp;or&nbsp;does&nbsp;not&nbsp;list&nbsp;any&nbsp;IP&nbsp;addresses,&nbsp;these&nbsp;functions&nbsp;send<br>
+queries&nbsp;to&nbsp;the&nbsp;local&nbsp;host,&nbsp;127.0.0.1.<br>
+&nbsp;<br>
+/etc/resolv.conf&nbsp;is&nbsp;automatically&nbsp;reread&nbsp;after&nbsp;10&nbsp;minutes&nbsp;or<br>
+10000&nbsp;uses.&nbsp;Beware&nbsp;that&nbsp;this&nbsp;feature&nbsp;is&nbsp;not&nbsp;supported&nbsp;by&nbsp;most&nbsp;DNS<br>
+client&nbsp;libraries.<br>
+&nbsp;<br>
+The&nbsp;user&nbsp;can&nbsp;override&nbsp;/etc/resolv.conf&nbsp;by&nbsp;setting&nbsp;the&nbsp;$DNSCACHEIP<br>
+environment&nbsp;variable.&nbsp;Beware&nbsp;that&nbsp;this&nbsp;feature&nbsp;is&nbsp;not&nbsp;supported<br>
+by&nbsp;most&nbsp;DNS&nbsp;client&nbsp;libraries.</tt></small></p>
+
+<p><table width="100%" cellspacing=0 cellpadding=2 border=0>
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom><small><small>&nbsp;<br></small></small
+><font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl><dt><a name="-ip4"><strong>ip4</strong></a>(...)<dd><small><tt>ip(fqdn)&nbsp;-&nbsp;look&nbsp;up&nbsp;fully&nbsp;qualified&nbsp;domain&nbsp;name.&nbsp;<br>
+&nbsp;<br>
+ip4&nbsp;looks&nbsp;up&nbsp;4-byte&nbsp;IP&nbsp;addresses&nbsp;for&nbsp;the&nbsp;fully-qualified<br>
+domain&nbsp;name&nbsp;in&nbsp;the&nbsp;string&nbsp;fqdn.&nbsp;It&nbsp;returns&nbsp;the&nbsp;binary<br>
+concatenation&nbsp;of&nbsp;the&nbsp;IP&nbsp;addresses.&nbsp;If&nbsp;the&nbsp;domain&nbsp;does&nbsp;not&nbsp;exist<br>
+in&nbsp;DNS,&nbsp;or&nbsp;has&nbsp;no&nbsp;IP&nbsp;addresses,&nbsp;the&nbsp;returned&nbsp;value&nbsp;will&nbsp;be&nbsp;empty.<br>
+&nbsp;<br>
+If&nbsp;dns_ip4&nbsp;has&nbsp;trouble&nbsp;with&nbsp;the&nbsp;DNS&nbsp;lookup,&nbsp;it&nbsp;will&nbsp;raise<br>
+LookupError.<br>
+&nbsp;<br>
+If&nbsp;fqdn&nbsp;is&nbsp;a&nbsp;dotted-decimal&nbsp;IP&nbsp;address,&nbsp;ip4&nbsp;puts&nbsp;that&nbsp;IP<br>
+address&nbsp;into&nbsp;out&nbsp;without&nbsp;checking&nbsp;DNS.&nbsp;More&nbsp;generally,&nbsp;if&nbsp;fqdn&nbsp;is<br>
+a&nbsp;dot-separated&nbsp;sequence&nbsp;of&nbsp;dotted-decimal&nbsp;IP&nbsp;addresses,&nbsp;ip4<br>
+puts&nbsp;those&nbsp;IP&nbsp;addresses&nbsp;into&nbsp;out&nbsp;without&nbsp;checking&nbsp;DNS.&nbsp;Brackets<br>
+may&nbsp;appear&nbsp;inside&nbsp;the&nbsp;dotted-decimal&nbsp;IP&nbsp;addresses;&nbsp;they&nbsp;are<br>
+ignored.</tt></small></dl>
+ <dl><dt><a name="-ip4_qualify"><strong>ip4_qualify</strong></a>(...)<dd><small><tt><a href="#-ip4_qualify">ip4_qualify</a>(dn)&nbsp;-&nbsp;takes&nbsp;a&nbsp;domain&nbsp;name&nbsp;as&nbsp;a&nbsp;string,&nbsp;puts&nbsp;it<br>
+through&nbsp;a&nbsp;qualification&nbsp;process&nbsp;and&nbsp;looks&nbsp;up&nbsp;assosiated&nbsp;IP<br>
+Adresses.<br>
+&nbsp;<br>
+dns_ip4_qualify&nbsp;feeds&nbsp;the&nbsp;name&nbsp;dn&nbsp;through&nbsp;qualification&nbsp;and&nbsp;looks<br>
+up&nbsp;4-byte&nbsp;IP&nbsp;addresses&nbsp;for&nbsp;the&nbsp;result.&nbsp;It&nbsp;returns&nbsp;a&nbsp;tuple<br>
+consisting&nbsp;of&nbsp;the&nbsp;fully&nbsp;qualified&nbsp;domain&nbsp;name&nbsp;and&nbsp;the&nbsp;binary<br>
+concatenation&nbsp;of&nbsp;the&nbsp;IP&nbsp;addresses&nbsp;as&nbsp;a&nbsp;string.&nbsp;If&nbsp;the&nbsp;domain&nbsp;does<br>
+not&nbsp;exist&nbsp;in&nbsp;DNS,&nbsp;or&nbsp;has&nbsp;no&nbsp;IP&nbsp;addresses,&nbsp;this&nbsp;string&nbsp;will&nbsp;be<br>
+empty.<br>
+&nbsp;<br>
+If&nbsp;dns_ip4_qualify&nbsp;has&nbsp;trouble&nbsp;with&nbsp;the&nbsp;qualification,&nbsp;has<br>
+trouble&nbsp;with&nbsp;DNS,&nbsp;it&nbsp;raises&nbsp;LookupError.<br>
+&nbsp;<br>
+Qualification&nbsp;means&nbsp;conversion&nbsp;of&nbsp;a&nbsp;short&nbsp;host&nbsp;name,&nbsp;such&nbsp;as<br>
+cheetah,&nbsp;into&nbsp;a&nbsp;complete&nbsp;(``fully&nbsp;qualified'')&nbsp;domain&nbsp;name,&nbsp;such<br>
+as&nbsp;cheetah.heaven.af.mil.<br>
+&nbsp;<br>
+This&nbsp;page&nbsp;explains&nbsp;the&nbsp;qualification&nbsp;rules&nbsp;followed&nbsp;by&nbsp;the<br>
+dns_ip4_qualify&nbsp;library&nbsp;routine&nbsp;in&nbsp;djbdns.<br>
+&nbsp;<br>
+Rewriting&nbsp;instructions<br>
+&nbsp;<br>
+Normally&nbsp;dns_ip4_qualify&nbsp;follows&nbsp;instructions&nbsp;listed&nbsp;in<br>
+/etc/dnsrewrite.&nbsp;You&nbsp;can&nbsp;override&nbsp;these&nbsp;instructions&nbsp;by&nbsp;creating<br>
+your&nbsp;own&nbsp;file&nbsp;and&nbsp;setting&nbsp;the&nbsp;$DNSREWRITEFILE&nbsp;environment<br>
+variable&nbsp;to&nbsp;the&nbsp;name&nbsp;of&nbsp;that&nbsp;file.<br>
+&nbsp;<br>
+Sample&nbsp;instructions:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;anything.local&nbsp;-&gt;&nbsp;me<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-.local:me<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;me&nbsp;-&gt;&nbsp;127.0.0.1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=me:127.0.0.1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;any.name.a&nbsp;-&gt;&nbsp;any.name.af.mil<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*.a:.af.mil<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;any-name-without-dots&nbsp;-&gt;&nbsp;any-name-without-dots.heaven.af.mil<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?:.heaven.af.mil<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;remove&nbsp;trailing&nbsp;dot<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*.:<br>
+&nbsp;<br>
+Instructions&nbsp;are&nbsp;followed&nbsp;in&nbsp;order,&nbsp;each&nbsp;at&nbsp;most&nbsp;once.&nbsp;There&nbsp;are<br>
+four&nbsp;types&nbsp;of&nbsp;instructions:<br>
+&nbsp;<br>
+&nbsp;<br>
+&nbsp;=post:new&nbsp;means&nbsp;that&nbsp;the&nbsp;host&nbsp;name&nbsp;post&nbsp;is&nbsp;replaced&nbsp;by&nbsp;new.<br>
+&nbsp;*post:new&nbsp;means&nbsp;that&nbsp;any&nbsp;name&nbsp;of&nbsp;the&nbsp;form&nbsp;prepost&nbsp;is&nbsp;replaced&nbsp;by&nbsp;prenew.<br>
+&nbsp;?post:new&nbsp;means&nbsp;that&nbsp;any&nbsp;name&nbsp;of&nbsp;the&nbsp;form&nbsp;prepost,&nbsp;where&nbsp;pre&nbsp;does&nbsp;not&nbsp;contain&nbsp;dots&nbsp;or&nbsp;brackets,&nbsp;is&nbsp;replaced&nbsp;by&nbsp;prenew.<br>
+&nbsp;-post:new&nbsp;means&nbsp;that&nbsp;any&nbsp;name&nbsp;of&nbsp;the&nbsp;form&nbsp;prepost&nbsp;is&nbsp;replaced&nbsp;by&nbsp;new.<br>
+&nbsp;<br>
+&nbsp;<br>
+Searching<br>
+&nbsp;<br>
+dns_ip4_qualify&nbsp;can&nbsp;search&nbsp;through&nbsp;DNS&nbsp;for&nbsp;several&nbsp;possible<br>
+qualifications&nbsp;of&nbsp;a&nbsp;name.&nbsp;For&nbsp;example,&nbsp;the&nbsp;name<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cheetah+.heaven.af.mil+.af.mil<br>
+&nbsp;<br>
+is&nbsp;qualified&nbsp;as&nbsp;cheetah.heaven.af.mil&nbsp;if&nbsp;that&nbsp;name&nbsp;has&nbsp;IP<br>
+addresses&nbsp;listed&nbsp;in&nbsp;DNS,&nbsp;or&nbsp;cheetah.af.mil&nbsp;otherwise.<br>
+&nbsp;<br>
+In&nbsp;general,&nbsp;x+y1+y2+y3&nbsp;is&nbsp;qualified&nbsp;as&nbsp;xy1&nbsp;if&nbsp;xy1&nbsp;has&nbsp;IP<br>
+addresses&nbsp;listed&nbsp;in&nbsp;DNS;&nbsp;otherwise,&nbsp;as&nbsp;xy2&nbsp;if&nbsp;xy2&nbsp;has&nbsp;IP<br>
+addresses&nbsp;listed&nbsp;in&nbsp;DNS;&nbsp;otherwise,&nbsp;as&nbsp;xy3.&nbsp;You&nbsp;can&nbsp;list&nbsp;any<br>
+number&nbsp;of&nbsp;+'s.<br>
+&nbsp;<br>
+Searching&nbsp;is&nbsp;applied&nbsp;after&nbsp;rewriting,&nbsp;so&nbsp;you&nbsp;can&nbsp;use&nbsp;a&nbsp;rewriting<br>
+instruction&nbsp;such&nbsp;as<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?:+.heaven.af.mil+.af.mil<br>
+&nbsp;<br>
+to&nbsp;have&nbsp;lion&nbsp;qualified&nbsp;as&nbsp;lion.heaven.af.mil&nbsp;or&nbsp;lion.af.mil,&nbsp;and<br>
+tiger&nbsp;qualified&nbsp;as&nbsp;tiger.heaven.af.mil&nbsp;or&nbsp;tiger.af.mil,&nbsp;and&nbsp;so<br>
+on.<br>
+&nbsp;<br>
+Searching&nbsp;is&nbsp;generally&nbsp;not&nbsp;a&nbsp;recommended&nbsp;feature.&nbsp;If&nbsp;you&nbsp;rely&nbsp;on<br>
+gw&nbsp;being&nbsp;qualified&nbsp;as&nbsp;gw.af.mil,&nbsp;and&nbsp;someone&nbsp;suddenly&nbsp;adds&nbsp;a&nbsp;new<br>
+gw.heaven.af.mil,&nbsp;you'll&nbsp;end&nbsp;up&nbsp;talking&nbsp;to&nbsp;the&nbsp;wrong&nbsp;host.&nbsp;It's<br>
+better&nbsp;to&nbsp;rely&nbsp;on&nbsp;syntactic&nbsp;rules&nbsp;that&nbsp;you&nbsp;control.<br>
+&nbsp;<br>
+&nbsp;<br>
+Compatibility&nbsp;mechanisms<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;rewriting-instructions&nbsp;file&nbsp;does&nbsp;not&nbsp;exist,<br>
+dns_ip4_qualify&nbsp;looks&nbsp;for&nbsp;a&nbsp;local&nbsp;domain&nbsp;name&nbsp;in&nbsp;three&nbsp;places:<br>
+&nbsp;<br>
+1.the&nbsp;$LOCALDOMAIN&nbsp;environment&nbsp;variable,&nbsp;if&nbsp;it&nbsp;is&nbsp;set;&nbsp;or<br>
+2.the&nbsp;first&nbsp;domain&nbsp;or&nbsp;search&nbsp;line&nbsp;in&nbsp;/etc/resolv.conf,&nbsp;if&nbsp;/etc/resolv.conf&nbsp;exists&nbsp;and&nbsp;has&nbsp;such&nbsp;a&nbsp;line;&nbsp;or<br>
+3.everything&nbsp;after&nbsp;the&nbsp;first&nbsp;dot&nbsp;in&nbsp;the&nbsp;system's&nbsp;hostname.<br>
+&nbsp;<br>
+It&nbsp;then&nbsp;creates&nbsp;rewriting&nbsp;instructions&nbsp;of&nbsp;the&nbsp;form<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?:.domain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*.:<br>
+&nbsp;<br>
+so&nbsp;that&nbsp;.domain&nbsp;is&nbsp;added&nbsp;to&nbsp;any&nbsp;name&nbsp;without&nbsp;dots&nbsp;or&nbsp;brackets.<br>
+&nbsp;<br>
+You&nbsp;can&nbsp;specify&nbsp;searching&nbsp;in&nbsp;$LOCALDOMAIN&nbsp;by&nbsp;using&nbsp;several&nbsp;domain<br>
+names&nbsp;separated&nbsp;by&nbsp;spaces.&nbsp;Your&nbsp;system&nbsp;administrator&nbsp;can&nbsp;specify<br>
+searching&nbsp;in&nbsp;/etc/resolv.conf&nbsp;by&nbsp;putting&nbsp;several&nbsp;domains&nbsp;on&nbsp;a<br>
+search</tt></small></dl>
+ <dl><dt><a name="-mx"><strong>mx</strong></a>(...)<dd><small><tt><a href="#-mx">mx</a>(fqdn)&nbsp;-&nbsp;look&nbsp;up&nbsp;MX&nbsp;Records&nbsp;for&nbsp;Domain&nbsp;fqdn.<br>
+&nbsp;<br>
+mx&nbsp;looks&nbsp;up&nbsp;MX&nbsp;records&nbsp;for&nbsp;the&nbsp;fully-qualified&nbsp;domain&nbsp;name&nbsp;in<br>
+fqdn.&nbsp;It&nbsp;returns&nbsp;the&nbsp;MX&nbsp;records&nbsp;as&nbsp;a&nbsp;string.&nbsp;Each&nbsp;MX&nbsp;record&nbsp;is&nbsp;a<br>
+two-byte&nbsp;MX&nbsp;distance&nbsp;followed&nbsp;by&nbsp;a</tt></small></dl>
+ <dl><dt><a name="-name4"><strong>name4</strong></a>(...)<dd><small><tt><a href="#-name4">name4</a>(ip)&nbsp;-&nbsp;get&nbsp;fully&nbsp;qualified&nbsp;domain&nbsp;name&nbsp;to&nbsp;an&nbsp;IP&nbsp;address.<br>
+&nbsp;<br>
+name4&nbsp;looks&nbsp;up&nbsp;the&nbsp;domain&nbsp;name&nbsp;for&nbsp;the&nbsp;4-byte&nbsp;binary&nbsp;IP&nbsp;address<br>
+in&nbsp;the&nbsp;string&nbsp;ip.&nbsp;It&nbsp;returns&nbsp;the&nbsp;(first)&nbsp;domain&nbsp;name.&nbsp;If&nbsp;the<br>
+relevant&nbsp;in-addr.arpa&nbsp;domain&nbsp;does&nbsp;not&nbsp;exist&nbsp;in&nbsp;DNS,&nbsp;or&nbsp;has&nbsp;no&nbsp;PTR<br>
+records,&nbsp;the&nbsp;return&nbsp;value&nbsp;will&nbsp;be&nbsp;empty.<br>
+&nbsp;<br>
+If&nbsp;name4&nbsp;has&nbsp;trouble&nbsp;with&nbsp;the&nbsp;DNS&nbsp;lookup,&nbsp;it&nbsp;raises&nbsp;LookupError.</tt></small></dl>
+ <dl><dt><a name="-random_init"><strong>random_init</strong></a>(...)<dd><small><tt><a href="#-random_init">random_init</a>(seed)&nbsp;initializes&nbsp;the&nbsp;pseudorandom&nbsp;number&nbsp;generator.<br>
+&nbsp;<br>
+random_init&nbsp;initializes&nbsp;the&nbsp;pseudorandom&nbsp;number&nbsp;generator&nbsp;used<br>
+through&nbsp;the&nbsp;dns&nbsp;library,&nbsp;taking&nbsp;account&nbsp;of&nbsp;seed,&nbsp;the&nbsp;current<br>
+process&nbsp;ID,&nbsp;and&nbsp;the&nbsp;current&nbsp;time.<br>
+&nbsp;<br>
+Seed&nbsp;can&nbsp;be&nbsp;a&nbsp;string&nbsp;of&nbsp;any&nbsp;size&nbsp;but&nbsp;should&nbsp;contain&nbsp;at&nbsp;least&nbsp;128<br>
+bytes&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;gather&nbsp;maximum&nbsp;entropy.<br>
+&nbsp;<br>
+Notes&nbsp;on&nbsp;DNS&nbsp;query&nbsp;security<br>
+&nbsp;<br>
+A&nbsp;DNS&nbsp;client&nbsp;will&nbsp;accept&nbsp;any&nbsp;response&nbsp;that&nbsp;shows&nbsp;up&nbsp;at&nbsp;the&nbsp;right<br>
+time,&nbsp;is&nbsp;addressed&nbsp;from&nbsp;the&nbsp;IP&nbsp;address&nbsp;of&nbsp;the&nbsp;legitimate&nbsp;server,<br>
+is&nbsp;addressed&nbsp;to&nbsp;the&nbsp;UDP&nbsp;port&nbsp;used&nbsp;in&nbsp;the&nbsp;DNS&nbsp;query,&nbsp;repeats&nbsp;the<br>
+query&nbsp;name&nbsp;and&nbsp;type&nbsp;used&nbsp;in&nbsp;the&nbsp;DNS&nbsp;query,&nbsp;and&nbsp;repeats&nbsp;the&nbsp;16-bit<br>
+ID&nbsp;used&nbsp;in&nbsp;the&nbsp;DNS&nbsp;query.<br>
+&nbsp;<br>
+An&nbsp;active&nbsp;sniffing&nbsp;attacker&nbsp;can&nbsp;easily&nbsp;forge&nbsp;responses&nbsp;by&nbsp;copying<br>
+information&nbsp;from&nbsp;queries.&nbsp;Blind&nbsp;attackers&nbsp;need&nbsp;to&nbsp;guess&nbsp;the&nbsp;time,<br>
+UDP&nbsp;port,&nbsp;and&nbsp;ID&nbsp;for&nbsp;the&nbsp;targeted&nbsp;query&nbsp;name.<br>
+&nbsp;<br>
+The&nbsp;dns_transmit&nbsp;functions&nbsp;use&nbsp;dns_random&nbsp;to&nbsp;create&nbsp;query&nbsp;IDs&nbsp;and<br>
+UDP&nbsp;ports.&nbsp;The&nbsp;dns_random&nbsp;generator&nbsp;is&nbsp;designed&nbsp;to&nbsp;be&nbsp;extremely<br>
+difficult&nbsp;to&nbsp;predict&nbsp;for&nbsp;an&nbsp;attacker&nbsp;who&nbsp;cannot&nbsp;guess&nbsp;seed.&nbsp;Note,<br>
+however,&nbsp;that&nbsp;there&nbsp;are&nbsp;only&nbsp;about&nbsp;a&nbsp;billion&nbsp;possible&nbsp;ID-port<br>
+pairs,&nbsp;so&nbsp;a&nbsp;prolonged&nbsp;blind&nbsp;attack&nbsp;will&nbsp;succeed&nbsp;eventually.</tt></small></dl>
+ <dl><dt><a name="-txt"><strong>txt</strong></a>(...)<dd><small><tt><a href="#-txt">txt</a>(fqdn)&nbsp;-&nbsp;return&nbsp;TXT&nbsp;records&nbsp;for&nbsp;fqdn.<br>
+&nbsp;<br>
+txt&nbsp;looks&nbsp;up&nbsp;TXT&nbsp;records&nbsp;for&nbsp;the&nbsp;fully-qualified&nbsp;domain&nbsp;name&nbsp;in<br>
+fqdn.&nbsp;It&nbsp;returns&nbsp;the&nbsp;concatenation&nbsp;of&nbsp;the&nbsp;TXT&nbsp;records.&nbsp;If&nbsp;the<br>
+domain&nbsp;does&nbsp;not&nbsp;exist&nbsp;in&nbsp;DNS,&nbsp;or&nbsp;has&nbsp;no&nbsp;TXT&nbsp;records,&nbsp;the&nbsp;return<br>
+value&nbsp;will&nbsp;be&nbsp;empty.<br>
+&nbsp;<br>
+If&nbsp;txt&nbsp;has&nbsp;trouble&nbsp;with&nbsp;the&nbsp;DNS&nbsp;lookup&nbsp;it&nbsp;wil&nbsp;raise&nbsp;LookupError.</tt></small></dl>
+</td></tr></table>
+<p><table width="100%" cellspacing=0 cellpadding=2 border=0>
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom><small><small>&nbsp;<br></small></small
+><font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>__file__</strong> = './_dnsmodule.so'<br>
+<strong>__name__</strong> = '_dns'</td></tr></table>
+</body></html>
