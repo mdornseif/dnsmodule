@@ -2,7 +2,11 @@
 
 SHELL=/bin/sh
 
-default: iopause.o dns.a env.a libtai.a alloc.a buffer.a unix.a byte.a 
+default: iopause.a dns.a env.a libtai.a alloc.a buffer.a unix.a byte.a 
+
+iopause.a: \
+makelib iopause.o
+	./makelib iopause.a iopause.o
 
 alloc.a: \
 makelib alloc.o alloc_re.o getln.o getln2.o stralloc_cat.o \
